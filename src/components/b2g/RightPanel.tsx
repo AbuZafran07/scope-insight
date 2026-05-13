@@ -195,9 +195,9 @@ export function RightPanel({ pkg, onClose, onBookmark, onScoreUpdate }: RightPan
                 <p className="text-[11px] text-foreground/80 leading-relaxed">
                   {localNotes ?? aiResult?.notes ?? '—'}
                 </p>
-                {(aiResult?.kategori ?? pkg.ai_kategori) && (
+                {(aiResult?.kategori ?? pkg.ai_category) && (
                   <span className="mt-2 inline-block text-[9px] px-1.5 py-0.5 rounded bg-card-2 border border-border text-muted-foreground">
-                    {aiResult?.kategori ?? pkg.ai_kategori}
+                    {aiResult?.kategori ?? pkg.ai_category}
                   </span>
                 )}
               </div>
