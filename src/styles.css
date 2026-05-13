@@ -89,3 +89,22 @@
   }
   .font-mono, .mono { font-family: var(--font-mono); }
 }
+
+/* Leaflet tooltip reset — use our own styled HTML inside tooltipHtml() */
+.scope-tooltip {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+.scope-tooltip::before {
+  display: none !important;
+}
+
+/* Leaflet map tiles sit below our UI chrome */
+.leaflet-container {
+  z-index: 0;
+}
+.leaflet-control-zoom {
+  display: none;
+}
