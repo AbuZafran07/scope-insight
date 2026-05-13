@@ -91,7 +91,7 @@ export function RightPanel({ pkg, onClose, onBookmark, onScoreUpdate }: RightPan
 
   const handleCopy = () => {
     navigator.clipboard.writeText(
-      `${pkg.nama_paket}\n${pkg.nama_instansi ?? ''}\nPagu: ${fmtRupiah(pkg.pagu)}\nKode RUP: ${pkg.kode_rup}`,
+      `${pkg.nama_paket}\n${pkg.nama_instansi ?? ''}\nPagu: ${fmtRupiah(pkg.pagu ?? 0)}\nKode RUP: ${pkg.kode_rup}`,
     );
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
