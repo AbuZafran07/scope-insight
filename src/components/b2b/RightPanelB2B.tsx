@@ -144,9 +144,9 @@ export function RightPanelB2B({
           <p className="text-sm font-semibold text-foreground leading-snug">{p.nama}</p>
           <div className="mt-2 flex items-center gap-3 flex-wrap">
             <StarRow rating={p.rating} />
-            {p.total_reviews > 0 && (
+            {(p.total_reviews ?? 0) > 0 && (
               <span className="text-[10px] text-muted-foreground">
-                {p.total_reviews.toLocaleString('id-ID')} ulasan
+                {(p.total_reviews ?? 0).toLocaleString('id-ID')} ulasan
               </span>
             )}
           </div>
