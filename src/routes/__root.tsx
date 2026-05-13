@@ -72,14 +72,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Ai intelligent business" },
+      { name: "description", content: "Ai intelligent business - PT. Kemika Karya Pratama" },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "Ai intelligent business" },
+      { property: "og:description", content: "Ai intelligent business - PT. Kemika Karya Pratama" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Ai intelligent business" },
+      { name: "twitter:description", content: "Ai intelligent business - PT. Kemika Karya Pratama" },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/475bebbc-d311-467a-961b-897d40b72cb4/id-preview-a6de9179--164f50d6-3e44-4f03-8ebb-4bfb82013552.lovable.app-1778646911428.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/475bebbc-d311-467a-961b-897d40b72cb4/id-preview-a6de9179--164f50d6-3e44-4f03-8ebb-4bfb82013552.lovable.app-1778646911428.png" },
     ],
     links: [
       {
