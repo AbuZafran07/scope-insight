@@ -41,6 +41,78 @@ export type Database = {
         }
         Relationships: []
       }
+      b2b_prospects: {
+        Row: {
+          id: number
+          place_id: string
+          nama: string
+          alamat: string | null
+          telepon: string | null
+          website: string | null
+          rating: number | null
+          total_reviews: number
+          lat: number | null
+          lng: number | null
+          sektor: string
+          kota: string | null
+          provinsi: string | null
+          status: string
+          catatan: string | null
+          email_draft: string | null
+          ai_notes: string | null
+          is_bookmarked: boolean
+          synced_at: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          place_id: string
+          nama: string
+          alamat?: string | null
+          telepon?: string | null
+          website?: string | null
+          rating?: number | null
+          total_reviews?: number
+          lat?: number | null
+          lng?: number | null
+          sektor?: string
+          kota?: string | null
+          provinsi?: string | null
+          status?: string
+          catatan?: string | null
+          email_draft?: string | null
+          ai_notes?: string | null
+          is_bookmarked?: boolean
+          synced_at?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          place_id?: string
+          nama?: string
+          alamat?: string | null
+          telepon?: string | null
+          website?: string | null
+          rating?: number | null
+          total_reviews?: number
+          lat?: number | null
+          lng?: number | null
+          sektor?: string
+          kota?: string | null
+          provinsi?: string | null
+          status?: string
+          catatan?: string | null
+          email_draft?: string | null
+          ai_notes?: string | null
+          is_bookmarked?: boolean
+          synced_at?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       rup_packages: {
         Row: {
           ai_category: string | null

@@ -10,11 +10,23 @@ export type ProvinceData = {
   value: number;
 };
 
+export type ProspectPin = {
+  id:     number;
+  lat:    number;
+  lng:    number;
+  nama:   string;
+  sektor: string;
+  status: string;
+  rating: number | null;
+};
+
 export interface IndonesiaMapProps {
-  data?: Record<string, ProvinceData>;
-  selected?: string | null;
+  data?:          Record<string, ProvinceData>;
+  selected?:      string | null;
   onProvSelected?: (province: string) => void;
-  mode?: 'b2g' | 'b2b';
+  mode?:          'b2g' | 'b2b';
+  prospects?:     ProspectPin[];
+  onPinSelect?:   (id: number) => void;
 }
 
 // Centroids [lat, lng] computed from province geometry
@@ -88,11 +100,32 @@ function tooltipHtml(name: string, prov: ProvinceData, mode: 'b2g' | 'b2b'): str
     </div>`;
 }
 
+const PIN_STATUS_COLOR: Record<string, string> = {
+  baru:         '#388bfd',
+  dihubungi:    '#d29922',
+  negosiasi:    '#a78bfa',
+  deal:         '#3fb950',
+  tidak_sesuai: '#7d8590',
+};
+
+function pinTooltipHtml(p: ProspectPin): string {
+  const color = PIN_STATUS_COLOR[p.status] ?? '#7d8590';
+  const star   = p.rating ? `⭐ ${p.rating.toFixed(1)}` : '';
+  return `
+    <div style="background:#161d28;border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:8px 12px;font-family:Inter,sans-serif;min-width:160px;pointer-events:none">
+      <div style="font-size:11px;font-weight:600;color:#e6edf3;margin-bottom:4px">${p.nama}</div>
+      <div style="font-size:10px;color:#7d8590">${p.sektor} ${star}</div>
+      <div style="font-size:10px;margin-top:3px;color:${color};font-weight:600">${p.status.replace('_', ' ')}</div>
+    </div>`;
+}
+
 export function IndonesiaMap({
   data = {},
   selected,
   onProvSelected,
   mode = 'b2g',
+  prospects = [],
+  onPinSelect,
 }: IndonesiaMapProps) {
   const [geoData, setGeoData] = useState<GeoJsonObject | null>(null);
 
@@ -214,11 +247,29 @@ export function IndonesiaMap({
               eventHandlers={{ click: () => onProvSelected?.(name) }}
             >
               <Tooltip sticky opacity={1} className="scope-tooltip">
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: tooltipHtml(name, prov, mode),
-                  }}
-                />
+                <div dangerouslySetInnerHTML={{ __html: tooltipHtml(name, prov, mode) }} />
+              </Tooltip>
+            </CircleMarker>
+          );
+        })}
+
+        {prospects.map((pin) => {
+          const color = PIN_STATUS_COLOR[pin.status] ?? '#7d8590';
+          return (
+            <CircleMarker
+              key={`pin-${pin.id}`}
+              center={[pin.lat, pin.lng]}
+              radius={7}
+              pathOptions={{
+                fillColor:    color,
+                fillOpacity:  0.9,
+                color:        '#0a0e14',
+                weight:       1.5,
+              }}
+              eventHandlers={{ click: () => onPinSelect?.(pin.id) }}
+            >
+              <Tooltip sticky opacity={1} className="scope-tooltip">
+                <div dangerouslySetInnerHTML={{ __html: pinTooltipHtml(pin) }} />
               </Tooltip>
             </CircleMarker>
           );
@@ -230,21 +281,32 @@ export function IndonesiaMap({
         <div className="text-muted-foreground uppercase tracking-wider font-medium mb-1">
           {mode === 'b2g' ? 'Paket B2G' : 'Prospek B2B'}
         </div>
-        {[
-          { color: 'rgba(218,54,51,0.80)', label: 'Tinggi' },
-          { color: 'rgba(210,153,34,0.75)', label: 'Sedang-Tinggi' },
-          { color: 'rgba(46,160,67,0.70)', label: 'Sedang-Rendah' },
-          { color: 'rgba(29,158,117,0.65)', label: 'Rendah' },
-          { color: 'rgba(22,29,40,0.7)', label: 'Belum ada data' },
-        ].map(({ color, label }) => (
-          <div key={label} className="flex items-center gap-2">
-            <span
-              className="inline-block h-3 w-3 rounded-sm border border-white/10 shrink-0"
-              style={{ background: color }}
-            />
-            <span className="text-muted-foreground">{label}</span>
-          </div>
-        ))}
+        {mode === 'b2b' && prospects.length > 0
+          ? [
+              { color: PIN_STATUS_COLOR.baru,         label: 'Baru' },
+              { color: PIN_STATUS_COLOR.dihubungi,     label: 'Dihubungi' },
+              { color: PIN_STATUS_COLOR.negosiasi,     label: 'Negosiasi' },
+              { color: PIN_STATUS_COLOR.deal,          label: 'Deal' },
+              { color: PIN_STATUS_COLOR.tidak_sesuai,  label: 'Tidak Sesuai' },
+            ].map(({ color, label }) => (
+              <div key={label} className="flex items-center gap-2">
+                <span className="inline-block h-2.5 w-2.5 rounded-full shrink-0" style={{ background: color }} />
+                <span className="text-muted-foreground">{label}</span>
+              </div>
+            ))
+          : [
+              { color: 'rgba(218,54,51,0.80)', label: 'Tinggi' },
+              { color: 'rgba(210,153,34,0.75)', label: 'Sedang-Tinggi' },
+              { color: 'rgba(46,160,67,0.70)', label: 'Sedang-Rendah' },
+              { color: 'rgba(29,158,117,0.65)', label: 'Rendah' },
+              { color: 'rgba(22,29,40,0.7)', label: 'Belum ada data' },
+            ].map(({ color, label }) => (
+              <div key={label} className="flex items-center gap-2">
+                <span className="inline-block h-3 w-3 rounded-sm border border-white/10 shrink-0" style={{ background: color }} />
+                <span className="text-muted-foreground">{label}</span>
+              </div>
+            ))
+        }
       </div>
 
       {/* Attribution */}
