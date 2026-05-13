@@ -118,10 +118,10 @@ export function PackageCard({ pkg, selected, onSelect, onBookmark }: PackageCard
             {pkg.nama_provinsi}
           </span>
         )}
-        {pkg.tanggal_akhir_pemilihan && (
+        {pkg.tanggal_pemilihan_selesai && (
           <span className="flex items-center gap-1 text-[9px] text-muted-foreground">
             <Calendar className="h-2.5 w-2.5" />
-            {new Date(pkg.tanggal_akhir_pemilihan).toLocaleDateString('id-ID', {
+            {new Date(pkg.tanggal_pemilihan_selesai).toLocaleDateString('id-ID', {
               day: '2-digit', month: 'short',
             })}
           </span>
