@@ -173,11 +173,11 @@ export function RightPanel({ pkg, onClose, onBookmark, onScoreUpdate }: RightPan
               </span>
             } />
           )}
-          <Row label="Dibuat"    value={fmtDate(pkg.tanggal_pembuatan)} />
+          <Row label="Dibuat"    value={fmtDate(pkg.created_at)} />
           <Row label="Deadline"  value={
             <span className="flex items-center gap-1">
               <Calendar className="h-3 w-3 text-muted-foreground" />
-              {fmtDate(pkg.tanggal_akhir_pemilihan)}
+              {fmtDate(pkg.tanggal_pemilihan_selesai)}
             </span>
           } />
         </div>
