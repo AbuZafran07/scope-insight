@@ -57,7 +57,7 @@ function B2GPage() {
 
   // KPI values derived from current page data
   const kpiData = useMemo(() => {
-    const totalPagu = packages.reduce((s, p) => s + p.pagu, 0);
+    const totalPagu = packages.reduce((s, p) => s + (p.pagu ?? 0), 0);
     const hot  = packages.filter((p) => (p.ai_score ?? 0) >= 80).length;
     const warm = packages.filter((p) => (p.ai_score ?? 0) >= 60 && (p.ai_score ?? 0) < 80).length;
     const ready = packages.filter((p) => p.status_aktif === 'Aktif').length;
@@ -67,7 +67,7 @@ function B2GPage() {
   const handleScoreUpdate = useCallback((kode_rup: string, score: number, notes: string) => {
     // Reflect AI score change without re-fetching
     if (selected?.kode_rup === kode_rup) {
-      setSelected((s) => s ? { ...s, ai_score: score, ai_notes: notes } : null);
+      setSelected((s) => s ? { ...s, ai_score: score, ai_reasoning: notes } : null);
     }
   }, [selected]);
 

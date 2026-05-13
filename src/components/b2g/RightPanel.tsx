@@ -76,8 +76,8 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
 export function RightPanel({ pkg, onClose, onBookmark, onScoreUpdate }: RightPanelProps) {
   const { analyze, loading: aiLoading, result: aiResult, error: aiError } = useAiAnalyze();
   const [localScore, setLocalScore] = useState<number | null>(pkg.ai_score);
-  const [localNotes, setLocalNotes] = useState<string | null>(pkg.ai_notes);
-  const days = daysLeft(pkg.tanggal_akhir_pemilihan);
+  const [localNotes, setLocalNotes] = useState<string | null>(pkg.ai_reasoning);
+  const days = daysLeft(pkg.tanggal_pemilihan_selesai);
   const [copied, setCopied]         = useState(false);
 
   const handleAnalyze = async () => {
@@ -91,7 +91,7 @@ export function RightPanel({ pkg, onClose, onBookmark, onScoreUpdate }: RightPan
 
   const handleCopy = () => {
     navigator.clipboard.writeText(
-      `${pkg.nama_paket}\n${pkg.nama_instansi ?? ''}\nPagu: ${fmtRupiah(pkg.pagu)}\nKode RUP: ${pkg.kode_rup}`,
+      `${pkg.nama_paket}\n${pkg.nama_instansi ?? ''}\nPagu: ${fmtRupiah(pkg.pagu ?? 0)}\nKode RUP: ${pkg.kode_rup}`,
     );
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
@@ -133,7 +133,7 @@ export function RightPanel({ pkg, onClose, onBookmark, onScoreUpdate }: RightPan
           </p>
           <div className="mt-2 flex items-center gap-3">
             <span className="text-lg font-mono font-bold text-accent-blue">
-              {fmtRupiah(pkg.pagu)}
+              {fmtRupiah(pkg.pagu ?? 0)}
             </span>
             {days !== null && (
               <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
@@ -173,11 +173,11 @@ export function RightPanel({ pkg, onClose, onBookmark, onScoreUpdate }: RightPan
               </span>
             } />
           )}
-          <Row label="Dibuat"    value={fmtDate(pkg.tanggal_pembuatan)} />
+          <Row label="Dibuat"    value={fmtDate(pkg.created_at)} />
           <Row label="Deadline"  value={
             <span className="flex items-center gap-1">
               <Calendar className="h-3 w-3 text-muted-foreground" />
-              {fmtDate(pkg.tanggal_akhir_pemilihan)}
+              {fmtDate(pkg.tanggal_pemilihan_selesai)}
             </span>
           } />
         </div>
@@ -195,9 +195,9 @@ export function RightPanel({ pkg, onClose, onBookmark, onScoreUpdate }: RightPan
                 <p className="text-[11px] text-foreground/80 leading-relaxed">
                   {localNotes ?? aiResult?.notes ?? '—'}
                 </p>
-                {(aiResult?.kategori ?? pkg.ai_kategori) && (
+                {(aiResult?.kategori ?? pkg.ai_category) && (
                   <span className="mt-2 inline-block text-[9px] px-1.5 py-0.5 rounded bg-card-2 border border-border text-muted-foreground">
-                    {aiResult?.kategori ?? pkg.ai_kategori}
+                    {aiResult?.kategori ?? pkg.ai_category}
                   </span>
                 )}
               </div>
