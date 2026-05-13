@@ -79,7 +79,7 @@ export function ProspectCard({ prospect: p, selected, onSelect, onBookmark }: Pr
       {/* Rating + reviews */}
       <div className="mt-1.5 flex items-center gap-2">
         <StarRating rating={p.rating} />
-        {p.total_reviews > 0 && (
+        {(p.total_reviews ?? 0) > 0 && (
           <span className="text-[9px] text-muted-foreground">
             ({p.total_reviews.toLocaleString('id-ID')} ulasan)
           </span>
