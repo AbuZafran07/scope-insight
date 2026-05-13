@@ -57,7 +57,7 @@ function B2GPage() {
 
   // KPI values derived from current page data
   const kpiData = useMemo(() => {
-    const totalPagu = packages.reduce((s, p) => s + p.pagu, 0);
+    const totalPagu = packages.reduce((s, p) => s + (p.pagu ?? 0), 0);
     const hot  = packages.filter((p) => (p.ai_score ?? 0) >= 80).length;
     const warm = packages.filter((p) => (p.ai_score ?? 0) >= 60 && (p.ai_score ?? 0) < 80).length;
     const ready = packages.filter((p) => p.status_aktif === 'Aktif').length;
