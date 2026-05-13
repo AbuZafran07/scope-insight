@@ -133,7 +133,7 @@ export function RightPanel({ pkg, onClose, onBookmark, onScoreUpdate }: RightPan
           </p>
           <div className="mt-2 flex items-center gap-3">
             <span className="text-lg font-mono font-bold text-accent-blue">
-              {fmtRupiah(pkg.pagu)}
+              {fmtRupiah(pkg.pagu ?? 0)}
             </span>
             {days !== null && (
               <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
