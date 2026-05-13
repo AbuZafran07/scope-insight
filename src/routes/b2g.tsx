@@ -67,7 +67,7 @@ function B2GPage() {
   const handleScoreUpdate = useCallback((kode_rup: string, score: number, notes: string) => {
     // Reflect AI score change without re-fetching
     if (selected?.kode_rup === kode_rup) {
-      setSelected((s) => s ? { ...s, ai_score: score, ai_notes: notes } : null);
+      setSelected((s) => s ? { ...s, ai_score: score, ai_reasoning: notes } : null);
     }
   }, [selected]);
 
