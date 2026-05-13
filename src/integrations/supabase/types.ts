@@ -14,7 +14,84 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      rup_packages: {
+        Row: {
+          id:                      number
+          kode_rup:                string
+          nama_paket:              string
+          nama_satker:             string | null
+          kode_satker:             string | null
+          nama_instansi:           string | null
+          kode_instansi:           string | null
+          nama_provinsi:           string | null
+          kode_provinsi:           string | null
+          pagu:                    number
+          metode_pengadaan:        string | null
+          jenis_pengadaan:         string | null
+          status_aktif:            string
+          tahun_anggaran:          number
+          tanggal_pembuatan:       string | null
+          tanggal_akhir_pemilihan: string | null
+          ai_score:                number | null
+          ai_notes:                string | null
+          ai_kategori:             string | null
+          is_bookmarked:           boolean
+          synced_at:               string
+          created_at:              string
+          updated_at:              string
+        }
+        Insert: {
+          id?:                     number
+          kode_rup:                string
+          nama_paket:              string
+          nama_satker?:            string | null
+          kode_satker?:            string | null
+          nama_instansi?:          string | null
+          kode_instansi?:          string | null
+          nama_provinsi?:          string | null
+          kode_provinsi?:          string | null
+          pagu?:                   number
+          metode_pengadaan?:       string | null
+          jenis_pengadaan?:        string | null
+          status_aktif?:           string
+          tahun_anggaran?:         number
+          tanggal_pembuatan?:      string | null
+          tanggal_akhir_pemilihan?: string | null
+          ai_score?:               number | null
+          ai_notes?:               string | null
+          ai_kategori?:            string | null
+          is_bookmarked?:          boolean
+          synced_at?:              string
+          created_at?:             string
+          updated_at?:             string
+        }
+        Update: {
+          id?:                     number
+          kode_rup?:               string
+          nama_paket?:             string
+          nama_satker?:            string | null
+          kode_satker?:            string | null
+          nama_instansi?:          string | null
+          kode_instansi?:          string | null
+          nama_provinsi?:          string | null
+          kode_provinsi?:          string | null
+          pagu?:                   number
+          metode_pengadaan?:       string | null
+          jenis_pengadaan?:        string | null
+          status_aktif?:           string
+          tahun_anggaran?:         number
+          tanggal_pembuatan?:      string | null
+          tanggal_akhir_pemilihan?: string | null
+          ai_score?:               number | null
+          ai_notes?:               string | null
+          ai_kategori?:            string | null
+          is_bookmarked?:          boolean
+          synced_at?:              string
+          created_at?:             string
+          updated_at?:             string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
