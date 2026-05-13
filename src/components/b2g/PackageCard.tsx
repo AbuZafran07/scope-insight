@@ -16,9 +16,9 @@ function fmtRupiah(v: number): string {
 }
 
 function urgency(pkg: RupPackage): 'hot' | 'warm' | 'normal' | 'none' {
-  if (!pkg.tanggal_akhir_pemilihan) return 'none';
+  if (!pkg.tanggal_pemilihan_selesai) return 'none';
   const days = Math.ceil(
-    (new Date(pkg.tanggal_akhir_pemilihan).getTime() - Date.now()) / 86_400_000,
+    (new Date(pkg.tanggal_pemilihan_selesai).getTime() - Date.now()) / 86_400_000,
   );
   if (days <= 0)  return 'none';
   if (days <= 14) return 'hot';
@@ -118,10 +118,10 @@ export function PackageCard({ pkg, selected, onSelect, onBookmark }: PackageCard
             {pkg.nama_provinsi}
           </span>
         )}
-        {pkg.tanggal_akhir_pemilihan && (
+        {pkg.tanggal_pemilihan_selesai && (
           <span className="flex items-center gap-1 text-[9px] text-muted-foreground">
             <Calendar className="h-2.5 w-2.5" />
-            {new Date(pkg.tanggal_akhir_pemilihan).toLocaleDateString('id-ID', {
+            {new Date(pkg.tanggal_pemilihan_selesai).toLocaleDateString('id-ID', {
               day: '2-digit', month: 'short',
             })}
           </span>

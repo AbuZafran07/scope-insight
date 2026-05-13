@@ -30,9 +30,9 @@ export function useAiAnalyze() {
     const { error: dbErr } = await supabase
       .from('rup_packages')
       .update({
-        ai_score:    r.score,
-        ai_notes:    r.notes,
-        ai_kategori: r.kategori,
+        ai_score:     r.score,
+        ai_reasoning: r.notes,
+        ai_category:  r.kategori,
       })
       .eq('kode_rup', paket.kode_rup);
 
