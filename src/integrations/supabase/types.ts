@@ -41,6 +41,78 @@ export type Database = {
         }
         Relationships: []
       }
+      b2b_prospects: {
+        Row: {
+          ai_notes: string | null
+          alamat: string | null
+          catatan: string | null
+          created_at: string
+          email_draft: string | null
+          id: number
+          is_bookmarked: boolean
+          kota: string | null
+          lat: number | null
+          lng: number | null
+          nama: string
+          place_id: string
+          provinsi: string | null
+          rating: number | null
+          sektor: string
+          status: string
+          synced_at: string
+          telepon: string | null
+          total_reviews: number | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          ai_notes?: string | null
+          alamat?: string | null
+          catatan?: string | null
+          created_at?: string
+          email_draft?: string | null
+          id?: number
+          is_bookmarked?: boolean
+          kota?: string | null
+          lat?: number | null
+          lng?: number | null
+          nama: string
+          place_id: string
+          provinsi?: string | null
+          rating?: number | null
+          sektor?: string
+          status?: string
+          synced_at?: string
+          telepon?: string | null
+          total_reviews?: number | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          ai_notes?: string | null
+          alamat?: string | null
+          catatan?: string | null
+          created_at?: string
+          email_draft?: string | null
+          id?: number
+          is_bookmarked?: boolean
+          kota?: string | null
+          lat?: number | null
+          lng?: number | null
+          nama?: string
+          place_id?: string
+          provinsi?: string | null
+          rating?: number | null
+          sektor?: string
+          status?: string
+          synced_at?: string
+          telepon?: string | null
+          total_reviews?: number | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       rup_packages: {
         Row: {
           ai_category: string | null
