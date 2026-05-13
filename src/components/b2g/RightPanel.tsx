@@ -76,8 +76,8 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
 export function RightPanel({ pkg, onClose, onBookmark, onScoreUpdate }: RightPanelProps) {
   const { analyze, loading: aiLoading, result: aiResult, error: aiError } = useAiAnalyze();
   const [localScore, setLocalScore] = useState<number | null>(pkg.ai_score);
-  const [localNotes, setLocalNotes] = useState<string | null>(pkg.ai_notes);
-  const days = daysLeft(pkg.tanggal_akhir_pemilihan);
+  const [localNotes, setLocalNotes] = useState<string | null>(pkg.ai_reasoning);
+  const days = daysLeft(pkg.tanggal_pemilihan_selesai);
   const [copied, setCopied]         = useState(false);
 
   const handleAnalyze = async () => {
