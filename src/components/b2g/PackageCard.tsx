@@ -16,9 +16,9 @@ function fmtRupiah(v: number): string {
 }
 
 function urgency(pkg: RupPackage): 'hot' | 'warm' | 'normal' | 'none' {
-  if (!pkg.tanggal_akhir_pemilihan) return 'none';
+  if (!pkg.tanggal_pemilihan_selesai) return 'none';
   const days = Math.ceil(
-    (new Date(pkg.tanggal_akhir_pemilihan).getTime() - Date.now()) / 86_400_000,
+    (new Date(pkg.tanggal_pemilihan_selesai).getTime() - Date.now()) / 86_400_000,
   );
   if (days <= 0)  return 'none';
   if (days <= 14) return 'hot';
