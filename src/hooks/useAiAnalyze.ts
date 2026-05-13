@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { scorePackage } from '@/lib/scoring';
 import type { RupPackage } from './useSirupData';
 
 export interface AiResult {
@@ -9,27 +10,39 @@ export interface AiResult {
 }
 
 export function useAiAnalyze() {
-  const [loading, setLoading]       = useState(false);
-  const [error,   setError]         = useState<string | null>(null);
-  const [result,  setResult]        = useState<AiResult | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error,   setError]   = useState<string | null>(null);
+  const [result,  setResult]  = useState<AiResult | null>(null);
 
   const analyze = async (paket: RupPackage): Promise<AiResult | null> => {
     setLoading(true);
     setError(null);
     setResult(null);
 
-    const { data, error: fnErr } = await supabase.functions.invoke('ai-analyze', {
-      body: { kode_rup: paket.kode_rup, paket },
-    });
+    // Scoring rule-based lokal — gratis, tanpa API eksternal
+    const r = scorePackage(
+      paket.nama_paket,
+      paket.nama_instansi,
+      paket.jenis_pengadaan,
+    );
+
+    // Simpan hasil ke Supabase
+    const { error: dbErr } = await supabase
+      .from('rup_packages')
+      .update({
+        ai_score:    r.score,
+        ai_notes:    r.notes,
+        ai_kategori: r.kategori,
+      })
+      .eq('kode_rup', paket.kode_rup);
 
     setLoading(false);
 
-    if (fnErr) {
-      setError(fnErr.message);
+    if (dbErr) {
+      setError(dbErr.message);
       return null;
     }
 
-    const r = data as AiResult;
     setResult(r);
     return r;
   };

@@ -76,8 +76,8 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
 export function RightPanel({ pkg, onClose, onBookmark, onScoreUpdate }: RightPanelProps) {
   const { analyze, loading: aiLoading, result: aiResult, error: aiError } = useAiAnalyze();
   const [localScore, setLocalScore] = useState<number | null>(pkg.ai_score);
-  const [localNotes, setLocalNotes] = useState<string | null>(pkg.ai_reasoning);
-  const days = daysLeft(pkg.tanggal_pemilihan_selesai);
+  const [localNotes, setLocalNotes] = useState<string | null>(pkg.ai_notes);
+  const days = daysLeft(pkg.tanggal_akhir_pemilihan);
   const [copied, setCopied]         = useState(false);
 
   const handleAnalyze = async () => {
@@ -177,7 +177,7 @@ export function RightPanel({ pkg, onClose, onBookmark, onScoreUpdate }: RightPan
           <Row label="Deadline"  value={
             <span className="flex items-center gap-1">
               <Calendar className="h-3 w-3 text-muted-foreground" />
-              {fmtDate(pkg.tanggal_pemilihan_selesai)}
+              {fmtDate(pkg.tanggal_akhir_pemilihan)}
             </span>
           } />
         </div>
@@ -195,9 +195,9 @@ export function RightPanel({ pkg, onClose, onBookmark, onScoreUpdate }: RightPan
                 <p className="text-[11px] text-foreground/80 leading-relaxed">
                   {localNotes ?? aiResult?.notes ?? '—'}
                 </p>
-                {(aiResult?.kategori ?? pkg.ai_category) && (
+                {(aiResult?.kategori ?? pkg.ai_kategori) && (
                   <span className="mt-2 inline-block text-[9px] px-1.5 py-0.5 rounded bg-card-2 border border-border text-muted-foreground">
-                    {aiResult?.kategori ?? pkg.ai_category}
+                    {aiResult?.kategori ?? pkg.ai_kategori}
                   </span>
                 )}
               </div>
