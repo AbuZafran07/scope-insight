@@ -105,7 +105,7 @@ export function PackageCard({ pkg, selected, onSelect, onBookmark }: PackageCard
           {pkg.nama_satker ?? pkg.nama_instansi ?? '—'}
         </span>
         <span className={`text-[10px] font-mono font-semibold text-accent-blue`}>
-          {fmtRupiah(pkg.pagu)}
+          {fmtRupiah(pkg.pagu ?? 0)}
         </span>
       </div>
 
