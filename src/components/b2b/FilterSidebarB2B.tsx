@@ -142,10 +142,40 @@ export function FilterSidebarB2B({ filters, onChange, onSync, syncing, total, la
               className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded border border-accent-teal/40 bg-accent-teal/10 text-accent-teal text-xs font-medium hover:bg-accent-teal/20 transition-colors disabled:opacity-50"
             >
               {syncing
-                ? <><Loader2 className="h-3 w-3 animate-spin" /> Mencari…</>
+                ? <><Loader2 className="h-3 w-3 animate-spin" /> Mencari di Google Places…</>
                 : <><Search className="h-3 w-3" /> Cari & Simpan</>
               }
             </button>
+
+            {/* Status sync */}
+            {lastSync.state !== 'idle' && (
+              <div
+                className={`mt-2 p-2 rounded border text-[10px] leading-relaxed ${
+                  lastSync.state === 'success'
+                    ? 'border-accent-green/30 bg-accent-green/5 text-accent-green'
+                    : lastSync.state === 'error'
+                    ? 'border-accent-red/30 bg-accent-red/5 text-accent-red'
+                    : 'border-border bg-card-2 text-muted-foreground'
+                }`}
+              >
+                <div className="flex items-center gap-1.5 font-semibold">
+                  {lastSync.state === 'running' && <><Loader2 className="h-3 w-3 animate-spin" /> Sedang sinkronisasi…</>}
+                  {lastSync.state === 'success' && <><CheckCircle2 className="h-3 w-3" /> Berhasil — {lastSync.count} hasil tersimpan</>}
+                  {lastSync.state === 'error'   && <><AlertCircle className="h-3 w-3" /> Gagal sinkronisasi</>}
+                </div>
+                {lastSync.params && (
+                  <div className="mt-1 text-muted-foreground">
+                    "{lastSync.params.keyword}" · {lastSync.params.kota}
+                  </div>
+                )}
+                {lastSync.message && (
+                  <div className="mt-1 break-words">{lastSync.message}</div>
+                )}
+                {lastSync.at && lastSync.state !== 'running' && (
+                  <div className="mt-1 text-muted-foreground">{fmtTime(lastSync.at)}</div>
+                )}
+              </div>
+            )}
           </div>
         )}
       </div>
