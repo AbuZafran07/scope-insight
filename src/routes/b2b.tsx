@@ -1,11 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useCallback, useMemo, useState } from 'react';
+import { toast } from 'sonner';
 import { AppShell } from '@/components/layout/AppShell';
 import { FilterSidebarB2B } from '@/components/b2b/FilterSidebarB2B';
 import { ProspectCard } from '@/components/b2b/ProspectCard';
 import { RightPanelB2B } from '@/components/b2b/RightPanelB2B';
 import { MapClientWrapper } from '@/components/map/MapClientWrapper';
-import { useB2bData, type B2bFilters, type B2bProspect } from '@/hooks/useB2bData';
+import { useB2bData, type B2bFilters, type B2bProspect, type SyncParams } from '@/hooks/useB2bData';
 import type { ProvinceData, ProspectPin } from '@/components/map/IndonesiaMap';
 import { LayoutList, Loader2, Map as MapIcon } from 'lucide-react';
 
