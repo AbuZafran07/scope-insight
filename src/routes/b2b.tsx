@@ -154,9 +154,10 @@ function B2BPage() {
       <FilterSidebarB2B
         filters={filters}
         onChange={handleFilterChange}
-        onSync={sync}
+        onSync={handleSync}
         syncing={syncing}
         total={total}
+        lastSync={lastSync}
       />
 
       {/* Main content */}
