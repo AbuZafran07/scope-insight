@@ -1,6 +1,6 @@
-import { ChevronDown, ChevronRight, Loader2, Search, SearchIcon } from 'lucide-react';
+import { AlertCircle, CheckCircle2, ChevronDown, ChevronRight, Loader2, Search, SearchIcon } from 'lucide-react';
 import { useState } from 'react';
-import type { B2bFilters, SyncParams } from '@/hooks/useB2bData';
+import type { B2bFilters, SyncParams, SyncStatus } from '@/hooks/useB2bData';
 
 interface FilterSidebarB2BProps {
   filters:  B2bFilters;
@@ -8,6 +8,7 @@ interface FilterSidebarB2BProps {
   onSync:   (p: SyncParams) => void;
   syncing:  boolean;
   total:    number;
+  lastSync: SyncStatus;
 }
 
 const SEKTOR_OPTIONS = [
