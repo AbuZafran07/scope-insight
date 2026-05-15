@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WatchlistRouteImport } from './routes/watchlist'
+import { Route as TeamRouteImport } from './routes/team'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as B2gRouteImport } from './routes/b2g'
@@ -17,10 +18,19 @@ import { Route as B2bRouteImport } from './routes/b2b'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DetailIdRouteImport } from './routes/detail.$id'
+import { Route as AuthResetPasswordRouteImport } from './routes/auth/reset-password'
+import { Route as AuthRegisterRouteImport } from './routes/auth/register'
+import { Route as AuthLoginRouteImport } from './routes/auth/login'
+import { Route as AuthForgotPasswordRouteImport } from './routes/auth/forgot-password'
 
 const WatchlistRoute = WatchlistRouteImport.update({
   id: '/watchlist',
   path: '/watchlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeamRoute = TeamRouteImport.update({
+  id: '/team',
+  path: '/team',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsRoute = SettingsRouteImport.update({
@@ -58,6 +68,26 @@ const DetailIdRoute = DetailIdRouteImport.update({
   path: '/detail/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
+  id: '/auth/reset-password',
+  path: '/auth/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRegisterRoute = AuthRegisterRouteImport.update({
+  id: '/auth/register',
+  path: '/auth/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/auth/login',
+  path: '/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
+  id: '/auth/forgot-password',
+  path: '/auth/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -66,7 +96,12 @@ export interface FileRoutesByFullPath {
   '/b2g': typeof B2gRoute
   '/dashboard': typeof DashboardRoute
   '/settings': typeof SettingsRoute
+  '/team': typeof TeamRoute
   '/watchlist': typeof WatchlistRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
+  '/auth/reset-password': typeof AuthResetPasswordRoute
   '/detail/$id': typeof DetailIdRoute
 }
 export interface FileRoutesByTo {
@@ -76,7 +111,12 @@ export interface FileRoutesByTo {
   '/b2g': typeof B2gRoute
   '/dashboard': typeof DashboardRoute
   '/settings': typeof SettingsRoute
+  '/team': typeof TeamRoute
   '/watchlist': typeof WatchlistRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
+  '/auth/reset-password': typeof AuthResetPasswordRoute
   '/detail/$id': typeof DetailIdRoute
 }
 export interface FileRoutesById {
@@ -87,7 +127,12 @@ export interface FileRoutesById {
   '/b2g': typeof B2gRoute
   '/dashboard': typeof DashboardRoute
   '/settings': typeof SettingsRoute
+  '/team': typeof TeamRoute
   '/watchlist': typeof WatchlistRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
+  '/auth/reset-password': typeof AuthResetPasswordRoute
   '/detail/$id': typeof DetailIdRoute
 }
 export interface FileRouteTypes {
@@ -99,7 +144,12 @@ export interface FileRouteTypes {
     | '/b2g'
     | '/dashboard'
     | '/settings'
+    | '/team'
     | '/watchlist'
+    | '/auth/forgot-password'
+    | '/auth/login'
+    | '/auth/register'
+    | '/auth/reset-password'
     | '/detail/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -109,7 +159,12 @@ export interface FileRouteTypes {
     | '/b2g'
     | '/dashboard'
     | '/settings'
+    | '/team'
     | '/watchlist'
+    | '/auth/forgot-password'
+    | '/auth/login'
+    | '/auth/register'
+    | '/auth/reset-password'
     | '/detail/$id'
   id:
     | '__root__'
@@ -119,7 +174,12 @@ export interface FileRouteTypes {
     | '/b2g'
     | '/dashboard'
     | '/settings'
+    | '/team'
     | '/watchlist'
+    | '/auth/forgot-password'
+    | '/auth/login'
+    | '/auth/register'
+    | '/auth/reset-password'
     | '/detail/$id'
   fileRoutesById: FileRoutesById
 }
@@ -130,7 +190,12 @@ export interface RootRouteChildren {
   B2gRoute: typeof B2gRoute
   DashboardRoute: typeof DashboardRoute
   SettingsRoute: typeof SettingsRoute
+  TeamRoute: typeof TeamRoute
   WatchlistRoute: typeof WatchlistRoute
+  AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
+  AuthLoginRoute: typeof AuthLoginRoute
+  AuthRegisterRoute: typeof AuthRegisterRoute
+  AuthResetPasswordRoute: typeof AuthResetPasswordRoute
   DetailIdRoute: typeof DetailIdRoute
 }
 
@@ -141,6 +206,13 @@ declare module '@tanstack/react-router' {
       path: '/watchlist'
       fullPath: '/watchlist'
       preLoaderRoute: typeof WatchlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/team': {
+      id: '/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof TeamRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings': {
@@ -192,6 +264,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DetailIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/reset-password': {
+      id: '/auth/reset-password'
+      path: '/auth/reset-password'
+      fullPath: '/auth/reset-password'
+      preLoaderRoute: typeof AuthResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/register': {
+      id: '/auth/register'
+      path: '/auth/register'
+      fullPath: '/auth/register'
+      preLoaderRoute: typeof AuthRegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/auth/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/forgot-password': {
+      id: '/auth/forgot-password'
+      path: '/auth/forgot-password'
+      fullPath: '/auth/forgot-password'
+      preLoaderRoute: typeof AuthForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -202,7 +302,12 @@ const rootRouteChildren: RootRouteChildren = {
   B2gRoute: B2gRoute,
   DashboardRoute: DashboardRoute,
   SettingsRoute: SettingsRoute,
+  TeamRoute: TeamRoute,
   WatchlistRoute: WatchlistRoute,
+  AuthForgotPasswordRoute: AuthForgotPasswordRoute,
+  AuthLoginRoute: AuthLoginRoute,
+  AuthRegisterRoute: AuthRegisterRoute,
+  AuthResetPasswordRoute: AuthResetPasswordRoute,
   DetailIdRoute: DetailIdRoute,
 }
 export const routeTree = rootRouteImport
