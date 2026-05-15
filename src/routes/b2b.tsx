@@ -41,10 +41,27 @@ function B2BPage() {
   const [view,     setView]     = useState<'list' | 'map'>('list');
 
   const {
-    prospects, total, loading, syncing, error,
+    prospects, total, loading, syncing, error, lastSync,
     sync, reload,
     updateStatus, toggleBookmark, saveEmailDraft,
   } = useB2bData(filters);
+
+  const handleSync = useCallback(async (params: SyncParams) => {
+    const result = await sync(params);
+    if (result.state === 'success') {
+      if (result.count > 0) {
+        toast.success(`${result.count} prospek tersimpan`, {
+          description: `"${params.keyword}" di ${params.kota}`,
+        });
+      } else {
+        toast.warning('Tidak ada hasil', {
+          description: result.message ?? 'Coba kata kunci atau kota lain.',
+        });
+      }
+    } else if (result.state === 'error') {
+      toast.error('Sinkronisasi gagal', { description: result.message ?? 'Terjadi kesalahan' });
+    }
+  }, [sync]);
 
   const handleFilterChange = useCallback((patch: Partial<B2bFilters>) => {
     setFilters((prev) => {
