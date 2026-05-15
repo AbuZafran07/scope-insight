@@ -21,12 +21,23 @@ export interface SyncParams {
   maxResults?: number;
 }
 
+export interface SyncStatus {
+  state:    'idle' | 'running' | 'success' | 'error';
+  count:    number;
+  message:  string | null;
+  at:       number | null;
+  params:   SyncParams | null;
+}
+
 export function useB2bData(filters: B2bFilters = {}) {
   const [prospects, setProspects] = useState<B2bProspect[]>([]);
   const [total, setTotal]         = useState(0);
   const [loading, setLoading]     = useState(false);
   const [syncing, setSyncing]     = useState(false);
   const [error, setError]         = useState<string | null>(null);
+  const [lastSync, setLastSync]   = useState<SyncStatus>({
+    state: 'idle', count: 0, message: null, at: null, params: null,
+  });
 
   const filtersKey = JSON.stringify(filters);
   const prevKey    = useRef('');
