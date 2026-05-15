@@ -154,6 +154,7 @@ export function useB2bData(filters: B2bFilters = {}) {
     loading,
     syncing,
     error,
+    lastSync,
     sync,
     reload:         load,
     updateStatus,
