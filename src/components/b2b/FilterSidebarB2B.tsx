@@ -56,17 +56,20 @@ function Section({
   );
 }
 
-export function FilterSidebarB2B({ filters, onChange, onSync, syncing, total }: FilterSidebarB2BProps) {
+export function FilterSidebarB2B({ filters, onChange, onSync, syncing, total, lastSync }: FilterSidebarB2BProps) {
   const [syncKw,   setSyncKw]   = useState('');
   const [syncKota, setSyncKota] = useState('');
   const [syncSek,  setSyncSek]  = useState('pest_control');
   const [syncMax,  setSyncMax]  = useState(20);
-  const [syncOpen, setSyncOpen] = useState(false);
+  const [syncOpen, setSyncOpen] = useState(true);
 
   const handleSync = () => {
     if (!syncKw.trim() || !syncKota.trim()) return;
     onSync({ keyword: syncKw.trim(), kota: syncKota.trim(), sektor: syncSek, maxResults: syncMax });
   };
+
+  const fmtTime = (t: number) =>
+    new Date(t).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
   return (
     <aside className="w-[265px] shrink-0 border-r border-border bg-card flex flex-col overflow-y-auto">
