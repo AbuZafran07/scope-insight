@@ -77,13 +77,40 @@ export function useB2bData(filters: B2bFilters = {}) {
     load();
   }, [filtersKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const sync = useCallback(async (params: SyncParams) => {
+  const sync = useCallback(async (params: SyncParams): Promise<SyncStatus> => {
     setSyncing(true);
     setError(null);
-    const { error: fnErr } = await supabase.functions.invoke('places-search', { body: params });
-    if (fnErr) setError(fnErr.message);
+    setLastSync({ state: 'running', count: 0, message: null, at: Date.now(), params });
+
+    const { data, error: fnErr } = await supabase.functions.invoke('places-search', { body: params });
+
+    let result: SyncStatus;
+    if (fnErr) {
+      // Try to extract detailed error from response body
+      let detail = fnErr.message;
+      try {
+        const ctx = (fnErr as { context?: { body?: string } }).context;
+        if (ctx?.body) {
+          const parsed = JSON.parse(ctx.body);
+          detail = parsed.error || parsed.detail || detail;
+        }
+      } catch { /* noop */ }
+      setError(detail);
+      result = { state: 'error', count: 0, message: detail, at: Date.now(), params };
+    } else {
+      const count = (data as { total?: number } | null)?.total ?? 0;
+      result = {
+        state:   'success',
+        count,
+        message: count === 0 ? 'Tidak ada hasil dari Google Places untuk kata kunci ini.' : null,
+        at:      Date.now(),
+        params,
+      };
+    }
+    setLastSync(result);
     setSyncing(false);
     await load();
+    return result;
   }, [load]);
 
   const updateStatus = useCallback(async (id: number, status: string) => {
