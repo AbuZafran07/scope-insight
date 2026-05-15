@@ -1,11 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useCallback, useMemo, useState } from 'react';
+import { toast } from 'sonner';
 import { AppShell } from '@/components/layout/AppShell';
 import { FilterSidebarB2B } from '@/components/b2b/FilterSidebarB2B';
 import { ProspectCard } from '@/components/b2b/ProspectCard';
 import { RightPanelB2B } from '@/components/b2b/RightPanelB2B';
 import { MapClientWrapper } from '@/components/map/MapClientWrapper';
-import { useB2bData, type B2bFilters, type B2bProspect } from '@/hooks/useB2bData';
+import { useB2bData, type B2bFilters, type B2bProspect, type SyncParams } from '@/hooks/useB2bData';
 import type { ProvinceData, ProspectPin } from '@/components/map/IndonesiaMap';
 import { LayoutList, Loader2, Map as MapIcon } from 'lucide-react';
 
@@ -40,10 +41,27 @@ function B2BPage() {
   const [view,     setView]     = useState<'list' | 'map'>('list');
 
   const {
-    prospects, total, loading, syncing, error,
+    prospects, total, loading, syncing, error, lastSync,
     sync, reload,
     updateStatus, toggleBookmark, saveEmailDraft,
   } = useB2bData(filters);
+
+  const handleSync = useCallback(async (params: SyncParams) => {
+    const result = await sync(params);
+    if (result.state === 'success') {
+      if (result.count > 0) {
+        toast.success(`${result.count} prospek tersimpan`, {
+          description: `"${params.keyword}" di ${params.kota}`,
+        });
+      } else {
+        toast.warning('Tidak ada hasil', {
+          description: result.message ?? 'Coba kata kunci atau kota lain.',
+        });
+      }
+    } else if (result.state === 'error') {
+      toast.error('Sinkronisasi gagal', { description: result.message ?? 'Terjadi kesalahan' });
+    }
+  }, [sync]);
 
   const handleFilterChange = useCallback((patch: Partial<B2bFilters>) => {
     setFilters((prev) => {
@@ -136,9 +154,10 @@ function B2BPage() {
       <FilterSidebarB2B
         filters={filters}
         onChange={handleFilterChange}
-        onSync={sync}
+        onSync={handleSync}
         syncing={syncing}
         total={total}
+        lastSync={lastSync}
       />
 
       {/* Main content */}

@@ -1,6 +1,6 @@
-import { ChevronDown, ChevronRight, Loader2, Search, SearchIcon } from 'lucide-react';
+import { AlertCircle, CheckCircle2, ChevronDown, ChevronRight, Loader2, Search, SearchIcon } from 'lucide-react';
 import { useState } from 'react';
-import type { B2bFilters, SyncParams } from '@/hooks/useB2bData';
+import type { B2bFilters, SyncParams, SyncStatus } from '@/hooks/useB2bData';
 
 interface FilterSidebarB2BProps {
   filters:  B2bFilters;
@@ -8,6 +8,7 @@ interface FilterSidebarB2BProps {
   onSync:   (p: SyncParams) => void;
   syncing:  boolean;
   total:    number;
+  lastSync: SyncStatus;
 }
 
 const SEKTOR_OPTIONS = [
@@ -55,17 +56,20 @@ function Section({
   );
 }
 
-export function FilterSidebarB2B({ filters, onChange, onSync, syncing, total }: FilterSidebarB2BProps) {
+export function FilterSidebarB2B({ filters, onChange, onSync, syncing, total, lastSync }: FilterSidebarB2BProps) {
   const [syncKw,   setSyncKw]   = useState('');
   const [syncKota, setSyncKota] = useState('');
   const [syncSek,  setSyncSek]  = useState('pest_control');
   const [syncMax,  setSyncMax]  = useState(20);
-  const [syncOpen, setSyncOpen] = useState(false);
+  const [syncOpen, setSyncOpen] = useState(true);
 
   const handleSync = () => {
     if (!syncKw.trim() || !syncKota.trim()) return;
     onSync({ keyword: syncKw.trim(), kota: syncKota.trim(), sektor: syncSek, maxResults: syncMax });
   };
+
+  const fmtTime = (t: number) =>
+    new Date(t).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
   return (
     <aside className="w-[265px] shrink-0 border-r border-border bg-card flex flex-col overflow-y-auto">
@@ -138,10 +142,40 @@ export function FilterSidebarB2B({ filters, onChange, onSync, syncing, total }: 
               className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded border border-accent-teal/40 bg-accent-teal/10 text-accent-teal text-xs font-medium hover:bg-accent-teal/20 transition-colors disabled:opacity-50"
             >
               {syncing
-                ? <><Loader2 className="h-3 w-3 animate-spin" /> Mencari…</>
+                ? <><Loader2 className="h-3 w-3 animate-spin" /> Mencari di Google Places…</>
                 : <><Search className="h-3 w-3" /> Cari & Simpan</>
               }
             </button>
+
+            {/* Status sync */}
+            {lastSync.state !== 'idle' && (
+              <div
+                className={`mt-2 p-2 rounded border text-[10px] leading-relaxed ${
+                  lastSync.state === 'success'
+                    ? 'border-accent-green/30 bg-accent-green/5 text-accent-green'
+                    : lastSync.state === 'error'
+                    ? 'border-accent-red/30 bg-accent-red/5 text-accent-red'
+                    : 'border-border bg-card-2 text-muted-foreground'
+                }`}
+              >
+                <div className="flex items-center gap-1.5 font-semibold">
+                  {lastSync.state === 'running' && <><Loader2 className="h-3 w-3 animate-spin" /> Sedang sinkronisasi…</>}
+                  {lastSync.state === 'success' && <><CheckCircle2 className="h-3 w-3" /> Berhasil — {lastSync.count} hasil tersimpan</>}
+                  {lastSync.state === 'error'   && <><AlertCircle className="h-3 w-3" /> Gagal sinkronisasi</>}
+                </div>
+                {lastSync.params && (
+                  <div className="mt-1 text-muted-foreground">
+                    "{lastSync.params.keyword}" · {lastSync.params.kota}
+                  </div>
+                )}
+                {lastSync.message && (
+                  <div className="mt-1 break-words">{lastSync.message}</div>
+                )}
+                {lastSync.at && lastSync.state !== 'running' && (
+                  <div className="mt-1 text-muted-foreground">{fmtTime(lastSync.at)}</div>
+                )}
+              </div>
+            )}
           </div>
         )}
       </div>
