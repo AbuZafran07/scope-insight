@@ -1,5 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Bell, User } from "lucide-react";
+import { Bell } from "lucide-react";
+import { UserMenu } from "./UserMenu";
 
 export function Topbar() {
   const { location } = useRouterState();
@@ -48,6 +49,7 @@ export function Topbar() {
           { to: "/dashboard", label: "Dashboard" },
           { to: "/watchlist", label: "Watchlist" },
           { to: "/analytics", label: "Analytics" },
+          { to: "/team", label: "Team" },
           { to: "/settings", label: "Settings" },
         ].map((l) => (
           <Link
@@ -69,9 +71,7 @@ export function Topbar() {
         <button className="text-muted-foreground hover:text-foreground">
           <Bell className="h-4 w-4" />
         </button>
-        <div className="h-7 w-7 rounded-full bg-card-2 border border-border grid place-items-center">
-          <User className="h-3.5 w-3.5 text-muted-foreground" />
-        </div>
+        <UserMenu />
       </div>
     </header>
   );
