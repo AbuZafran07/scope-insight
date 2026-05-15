@@ -113,6 +113,42 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bidang_usaha: string[]
+          created_at: string
+          id: string
+          nama_lengkap: string | null
+          nama_perusahaan: string | null
+          onboarding_done: boolean
+          provinsi_operasional: string[]
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          bidang_usaha?: string[]
+          created_at?: string
+          id: string
+          nama_lengkap?: string | null
+          nama_perusahaan?: string | null
+          onboarding_done?: boolean
+          provinsi_operasional?: string[]
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          bidang_usaha?: string[]
+          created_at?: string
+          id?: string
+          nama_lengkap?: string | null
+          nama_perusahaan?: string | null
+          onboarding_done?: boolean
+          provinsi_operasional?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       rup_packages: {
         Row: {
           ai_category: string | null
@@ -194,6 +230,108 @@ export type Database = {
           tanggal_pemilihan_selesai?: string | null
           updated_at?: string
           uraian_pekerjaan?: string | null
+        }
+        Relationships: []
+      }
+      sync_log: {
+        Row: {
+          created_at: string
+          durasi_detik: number | null
+          id: string
+          jumlah_data: number
+          pesan: string | null
+          status: string
+          tipe: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          durasi_detik?: number | null
+          id?: string
+          jumlah_data?: number
+          pesan?: string | null
+          status?: string
+          tipe: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          durasi_detik?: number | null
+          id?: string
+          jumlah_data?: number
+          pesan?: string | null
+          status?: string
+          tipe?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      user_settings: {
+        Row: {
+          created_at: string
+          filter_instansi: string[]
+          filter_kategori: string[]
+          filter_pagu_min: number
+          filter_relevansi_min: number
+          filter_sektor_b2b: string[]
+          id: string
+          notif_email_aktif: boolean
+          notif_emails: string[]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          filter_instansi?: string[]
+          filter_kategori?: string[]
+          filter_pagu_min?: number
+          filter_relevansi_min?: number
+          filter_sektor_b2b?: string[]
+          id?: string
+          notif_email_aktif?: boolean
+          notif_emails?: string[]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          filter_instansi?: string[]
+          filter_kategori?: string[]
+          filter_pagu_min?: number
+          filter_relevansi_min?: number
+          filter_sektor_b2b?: string[]
+          id?: string
+          notif_email_aktif?: boolean
+          notif_emails?: string[]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      watchlist: {
+        Row: {
+          catatan: string
+          created_at: string
+          id: string
+          item_id: string
+          item_type: string
+          user_id: string
+        }
+        Insert: {
+          catatan?: string
+          created_at?: string
+          id?: string
+          item_id: string
+          item_type: string
+          user_id: string
+        }
+        Update: {
+          catatan?: string
+          created_at?: string
+          id?: string
+          item_id?: string
+          item_type?: string
+          user_id?: string
         }
         Relationships: []
       }
